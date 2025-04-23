@@ -43,7 +43,7 @@ const Hero = () => {
               Building <span className="gradient-text text-7xl">Stronger</span>{" "}
               Building
               <LineShadowText className="italic ml-3 text-7xl">
-              Faster
+                Faster
               </LineShadowText>
             </motion.h1>
 
@@ -54,8 +54,8 @@ const Hero = () => {
               variants={fadeInVariants}
               className="text-lg text-gray-600 mb-8 max-w-lg"
             >
-              Decades of expertise in providing high-quality precast
-              concrete solutions for construction projects of all sizes.
+              Decades of expertise in providing high-quality precast concrete
+              solutions for construction projects of all sizes.
             </motion.p>
 
             <motion.div
@@ -112,15 +112,22 @@ const Hero = () => {
             className="relative"
           >
             <div className="relative z-10 ml-auto">
-              <Image
+              {/* <Image
                 src="/images/main.jpg"
                 alt="Tirupati Precast"
                 width={600}
                 height={400}
                 className="rounded-2xl shadow-2xl object-cover"
+              /> */}
+              <video
+                src="videoplayback.mp4"
+                autoPlay
+                loop
+                muted
+                className="rounded-2xl shadow-2xl object-fill w-full h-[200px] sm:w-[650px] sm:h-[350px]"
               />
-              <div className="absolute -bottom-12 -left-6 bg-white p-4 rounded-lg shadow-lg">
-                <div className="flex items-center gap-3">
+              <div className="absolute -bottom-12 -left-6 bg-white p-4 rounded-lg shadow-lg ">
+                <div className="flex items-center gap-3 ">
                   <div className="gradient-bg-1 rounded-full p-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +163,7 @@ const Hero = () => {
                 duration: 3,
                 ease: "easeInOut",
               }}
-              className="absolute z-10 -top-6 -right-4 md:-right-10 bg-white p-3 rounded-lg shadow-lg"
+              className="absolute z-10 -top-12 -right-4 md:-right-10 bg-white p-3 rounded-lg shadow-lg"
             >
               <div className="flex items-center gap-2">
                 <div className="rounded-full bg-purple-100 p-2">

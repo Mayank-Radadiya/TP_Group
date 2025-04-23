@@ -21,7 +21,6 @@ export function Carousel({ slides }: CarouselProps) {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // For mobile swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -32,15 +31,12 @@ export function Carousel({ slides }: CarouselProps) {
 
   const handleTouchEnd = () => {
     if (touchStartX.current - touchEndX.current > 80) {
-      // Swipe left, go to next slide
       handleNext();
     } else if (touchEndX.current - touchStartX.current > 80) {
-      // Swipe right, go to previous slide
       handlePrevious();
     }
   };
 
-  // Auto-play functionality
   useEffect(() => {
     if (isAutoPlaying) {
       autoPlayRef.current = setInterval(() => {
@@ -58,18 +54,15 @@ export function Carousel({ slides }: CarouselProps) {
     };
   }, [isAutoPlaying, slides.length]);
 
-  // Pause auto-play on user interaction
   const pauseAutoPlay = () => {
     setIsAutoPlaying(false);
   };
 
-  // Resume auto-play after 10 seconds of inactivity
   useEffect(() => {
     if (!isAutoPlaying) {
       const timer = setTimeout(() => {
         setIsAutoPlaying(true);
       }, 10000);
-
       return () => clearTimeout(timer);
     }
   }, [isAutoPlaying]);
@@ -92,7 +85,6 @@ export function Carousel({ slides }: CarouselProps) {
     setCurrent(index);
   };
 
-  // Variants for the slide animations
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
@@ -128,7 +120,7 @@ export function Carousel({ slides }: CarouselProps) {
 
   return (
     <div
-      className="relative h-[80vh] max-h-[700px] w-full overflow-hidden bg-gradient-to-r from-purple-900/5 to-indigo-900/10"
+      className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] w-full overflow-hidden bg-gradient-to-r from-purple-900/5 to-indigo-900/10"
       onMouseEnter={pauseAutoPlay}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -152,16 +144,18 @@ export function Carousel({ slides }: CarouselProps) {
               className="object-cover"
               loading="eager"
               priority
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 85vw, 80vw"
+              style={{ objectPosition: 'center' }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
 
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center px-4 md:px-0 max-w-3xl">
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+              <div className="text-center w-full max-w-3xl">
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-3xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg"
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 drop-shadow-lg"
                 >
                   {slides[current].title}
                 </motion.h2>
@@ -173,7 +167,7 @@ export function Carousel({ slides }: CarouselProps) {
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
-                  className="gradient-bg-1 text-white rounded-full px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="gradient-bg-1 text-white text-sm sm:text-base rounded-full px-4 sm:px-6 md:px-8 py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   {slides[current].button}
                 </motion.button>
@@ -184,17 +178,17 @@ export function Carousel({ slides }: CarouselProps) {
       </AnimatePresence>
 
       {/* Previous/Next buttons */}
-      <div className="absolute inset-0 flex items-center justify-between p-4 pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none">
         <motion.button
           variants={buttonVariants}
           whileHover="hover"
           whileTap="tap"
           onClick={handlePrevious}
-          className="glass-effect rounded-full p-3 text-white shadow-md pointer-events-auto"
+          className="glass-effect rounded-full p-2 sm:p-3 text-white shadow-md pointer-events-auto"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-4 w-4 sm:h-6 sm:w-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -213,11 +207,11 @@ export function Carousel({ slides }: CarouselProps) {
           whileHover="hover"
           whileTap="tap"
           onClick={handleNext}
-          className="glass-effect rounded-full p-3 text-white shadow-md pointer-events-auto"
+          className="glass-effect rounded-full p-2 sm:p-3 text-white shadow-md pointer-events-auto"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-4 w-4 sm:h-6 sm:w-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -233,16 +227,16 @@ export function Carousel({ slides }: CarouselProps) {
       </div>
 
       {/* Pagination dots */}
-      <div className="absolute bottom-6 left-0 right-0">
-        <div className="flex justify-center space-x-2">
+      <div className="absolute bottom-3 sm:bottom-6 left-0 right-0">
+        <div className="flex justify-center space-x-1 sm:space-x-2">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => handleDotClick(index)}
               className={`transition-all duration-300 ${
                 current === index
-                  ? "w-8 h-2 bg-white"
-                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+                  ? "w-6 sm:w-8 h-1.5 sm:h-2 bg-white"
+                  : "w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/50 hover:bg-white/80"
               } rounded-full`}
               aria-label={`Go to slide ${index + 1}`}
             />

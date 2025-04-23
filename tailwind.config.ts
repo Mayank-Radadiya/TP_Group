@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       animation: {
-        "line-shadow": "line-shadow 15s linear infinite",
+        "line-shadow": "line-shadow 13s linear infinite",
         "spin-slow": "spin 8s linear infinite",
         float: "float 6s ease-in-out infinite",
       },

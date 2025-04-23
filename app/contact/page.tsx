@@ -370,19 +370,18 @@ const ContactPage = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUpVariants}
-            className="relative rounded-xl overflow-hidden shadow-lg h-[700px] "
+            className="relative rounded-xl overflow-hidden shadow-lg h-[300px] sm:h-[400px] md:h-[500px] lg:h-[700px]"
           >
-            <div className="absolute inset-0  bg-gray-200 flex items-center justify-center">
-              <div className="text-center p-8">
-                <Image
-                  src="/map.png"
-                  alt="Map location"
-                  width={1200}
-                  height={600}
-                  className="object-cover w-full h-full rounded-xl"
-                />
-              </div>
-            </div>
+            {/* Image background */}
+            <Image
+              src="/map.png"
+              alt="Map location"
+              fill
+              className="object-top sm:object-cover w-full h-full"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent z-10" />
+
+            {/* Floating box */}
             <motion.div
               variants={fadeInRightVariants}
               animate={{ y: [0, -15, 0] }}
@@ -391,13 +390,13 @@ const ContactPage = () => {
                 duration: 2.5,
                 ease: "easeInOut",
               }}
-              className="absolute bottom-0 left-0 w-fit right-0 p-6 z-10 flex justify-start"
+              className="absolute bottom-0 left-0 w-full p-4 sm:p-6 z-20 flex justify-center"
             >
               <Link
                 href="https://maps.app.goo.gl/RMMszxZdo4YJkHbJA"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/90 backdrop-blur-md px-6 py-4 rounded-xl shadow-xl max-w-sm cursor-pointer transition-all hover:text-purple-600 hover:shadow-2xl"
+                className="bg-white/90 backdrop-blur-md px-6 py-4 rounded-xl shadow-xl w-full max-w-xs sm:max-w-sm text-center sm:text-left transition-all hover:text-purple-600 hover:shadow-2xl"
               >
                 <h3 className="text-lg font-bold">Tirupati Precast</h3>
                 <p className="text-sm text-gray-600">
