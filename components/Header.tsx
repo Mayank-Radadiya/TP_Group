@@ -12,6 +12,7 @@ const navItems = [
   { id: 3, name: "Products", link: "/products" },
   { id: 4, name: "Projects", link: "/projects" },
   { id: 5, name: "Contact", link: "/contact" },
+  { id: 6, name: "Gallery", link: "/gallery" },
 ];
 
 const Header = () => {
