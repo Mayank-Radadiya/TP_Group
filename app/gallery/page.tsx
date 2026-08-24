@@ -4,9 +4,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 
-interface PageProps {}
-
-const GalleryPage: NextPage<PageProps> = () => {
+const GalleryPage: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const categories = [
