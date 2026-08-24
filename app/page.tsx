@@ -11,7 +11,7 @@ const HomePage = () => {
 
   return (
     <main ref={mainRef} className="overflow-x-hidden">
-      <Progressbar target={mainRef} />
+      <Progressbar />
       <Hero />
       <div id="about">
         <About />

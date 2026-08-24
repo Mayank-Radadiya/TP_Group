@@ -1,204 +1,108 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { redirect, usePathname } from "next/navigation";
-import toast from "react-hot-toast";
 
-const navItems = [
-  { id: 1, name: "Home", link: "/" },
-  { id: 2, name: "About", link: "/about" },
-  { id: 3, name: "Products", link: "/products" },
-  { id: 4, name: "Projects", link: "/projects" },
-  { id: 5, name: "Contact", link: "/contact" },
-  { id: 6, name: "Gallery", link: "/gallery" },
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const NAV_ITEMS = [
+  { name: "Products", href: "/products" },
+  { name: "Projects", href: "/projects" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
+const RING =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-safety focus-visible:ring-offset-2";
+
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    setActiveLink(window.location.pathname);
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  // Framer Motion variants
-  const logoVariants = {
-    hover: { scale: 1.05, transition: { duration: 0.3 } },
-  };
-
-  const navItemVariants = {
-    hover: { y: -3, transition: { duration: 0.2 } },
-  };
-
-  const mobileMenuVariants = {
-    closed: { x: "100%", opacity: 0 },
-    open: {
-      x: 0,
-      opacity: 1,
-      transition: { type: "spring", stiffness: 300, damping: 30 },
-    },
-  };
 
   return (
     <>
-      <header
-        className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 ${
-          isScrolled ? "py-2 glass-effect shadow-lg" : "py-4 bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
-          <Link href="/" className="relative z-10">
-            <motion.div
-              variants={logoVariants}
-              whileHover="hover"
-              className="flex items-center"
-            >
-              <Image
-                src="/images/logo.png"
-                alt="Tirupati Precast"
-                width={150}
-                height={60}
-                className={`transition-all duration-300 ${
-                  isScrolled ? "h-10 w-auto" : "h-12 w-auto"
-                }`}
-              />
-            </motion.div>
+      <header className="sticky top-0 z-50 border-b hairline bg-bone/95 backdrop-blur-sm">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
+          <Link
+            href="/"
+            className={`flex flex-col ${RING} focus-visible:ring-offset-bone`}
+          >
+            <span className="font-display text-lg font-extrabold uppercase leading-none tracking-tight text-ink">
+              Tirupati Precast
+            </span>
+            <span className="label-mono mt-1">EST. 2014 — BENGALURU</span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-8 hover:text-blue-500">
-            {navItems.map((item) => (
-              <motion.div
-                key={item.id}
-                variants={navItemVariants}
-                whileHover="hover"
+          <nav className="hidden items-center gap-8 md:flex">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+                className={`font-mono text-xs uppercase tracking-[0.2em] transition-colors hover:text-safety focus-visible:ring-offset-bone ${
+                  pathname === item.href ? "text-safety" : "text-ink"
+                } ${RING}`}
               >
-                <Link
-                  href={item.link}
-                  className={`relative font-medium text-base transition-colors  ${
-                    pathname.includes(item.link) && item.link !== "/"
-                      ? "text-purple-700 font-semibold"
-                      : "text-gray-800 hover:text-primary"
-                  }`}
-                >
-                  {item.name}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      activeLink === item.link
-                        ? "w-full text-primary/80"
-                        : "w-0"
-                    }`}
-                  />
-                </Link>
-              </motion.div>
+                {item.name}
+              </Link>
             ))}
-
-            <motion.button
-              onClick={() => {
-                toast.success(
-                  "Please fill out the form to get a quote or contact us."
-                );
-                redirect("/contact");
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="gradient-bg-1 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all"
+            <a
+              href="tel:+918884088778"
+              className={`btn-wipe bg-ink px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-bone focus-visible:ring-offset-bone ${RING}`}
             >
-              Get Quote
-            </motion.button>
+              +91 88840 88778
+            </a>
           </nav>
 
           <button
-            onClick={toggleMobileMenu}
-            className="md:hidden flex flex-col justify-center items-center w-10 h-10 relative z-20"
-            aria-label="Toggle menu"
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className={`relative z-50 flex h-10 w-10 items-center justify-center text-ink md:hidden focus-visible:ring-offset-bone ${RING}`}
           >
-            <motion.span
-              animate={{
-                rotate: isMobileMenuOpen ? 45 : 0,
-                y: isMobileMenuOpen ? 8 : 0,
-              }}
-              className="w-6 h-0.5 bg-gray-800 block mb-1.5 transition-all"
-            />
-            <motion.span
-              animate={{
-                opacity: isMobileMenuOpen ? 0 : 1,
-              }}
-              className="w-6 h-0.5 bg-gray-800 block mb-1.5 transition-all"
-            />
-            <motion.span
-              animate={{
-                rotate: isMobileMenuOpen ? -45 : 0,
-                y: isMobileMenuOpen ? -8 : 0,
-              }}
-              className="w-6 h-0.5 bg-gray-800 block transition-all"
-            />
+            {menuOpen ? (
+              <X className="h-6 w-6" aria-hidden />
+            ) : (
+              <Menu className="h-6 w-6" aria-hidden />
+            )}
           </button>
         </div>
       </header>
 
-      {/* Mobile Menu */}
-      <motion.div
-        initial="closed"
-        animate={isMobileMenuOpen ? "open" : "closed"}
-        variants={mobileMenuVariants}
-        className="fixed top-0 right-0 h-full w-[75%] glass-effect z-40 md:hidden"
-      >
-        <div className="pt-20 px-6 h-full flex flex-col">
-          <div className="flex flex-col space-y-6">
-            {navItems.map((item) => (
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pb-10 pt-24 text-bone md:hidden">
+          <nav className="flex flex-col">
+            {NAV_ITEMS.map((item, i) => (
               <Link
-                key={item.id}
-                href={item.link}
-                className={`text-lg ${
-                  activeLink === item.link
-                    ? "text-primary font-semibold"
-                    : "text-gray-800"
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                aria-current={pathname === item.href ? "page" : undefined}
+                className={`flex items-baseline gap-4 border-b border-bone/10 py-4 font-display text-3xl font-extrabold uppercase tracking-tight focus-visible:ring-offset-ink ${
+                  pathname === item.href ? "text-safety" : "text-bone"
+                } ${RING}`}
               >
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  {item.name}
-                </motion.div>
+                <span className="font-mono text-xs tracking-[0.2em] text-concrete">
+                  0{i + 1}
+                </span>
+                {item.name}
               </Link>
             ))}
-          </div>
-
-          <div className="mt-auto mb-10">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="gradient-bg-1 text-white px-5 py-2 w-full rounded-full shadow-md"
+          </nav>
+          <div>
+            <p className="label-mono">Contact</p>
+            <a
+              href="tel:+918884088778"
+              onClick={() => setMenuOpen(false)}
+              className={`mt-2 block font-display text-2xl font-extrabold uppercase tracking-tight text-bone focus-visible:ring-offset-ink ${RING}`}
             >
-              Get Quote
-            </motion.button>
+              +91 88840 88778
+            </a>
+            <p className="label-mono mt-1">EST. 2014 — BENGALURU</p>
           </div>
         </div>
-      </motion.div>
-
-      {/* Background overlay for mobile menu */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
       )}
     </>
   );

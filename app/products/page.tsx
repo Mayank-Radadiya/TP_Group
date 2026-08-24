@@ -161,7 +161,7 @@ const ProductsPage = () => {
 
   return (
     <main ref={mainRef} className="pt-20 overflow-hidden">
-      <Progressbar target={mainRef} />
+      <Progressbar />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-28 bg-gradient-to-b from-purple-50 to-white">
