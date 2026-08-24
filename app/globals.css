@@ -63,7 +63,7 @@
   }
 
   .btn-wipe {
-    @apply relative overflow-hidden;
+    @apply relative isolate overflow-hidden;
   }
 
   .btn-wipe::after {
