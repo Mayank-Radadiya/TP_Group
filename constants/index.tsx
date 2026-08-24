@@ -1,5 +1,10 @@
 import { Facebook, Linkedin, Youtube } from "lucide-react";
 
+export const ABOUT_COPY = [
+  "Every panel we ship is cast at our Yelahanka plant, not on your site. Steel moulds, controlled mixes, measured cure — quality is inspected at the pour, where it can still be corrected, not discovered after erection.",
+  "We have been pouring precast concrete in Bengaluru since 2014. Fifteen hundred projects later, the plant runs six days a week supplying compound walls and structural panels across Karnataka.",
+];
+
 export const slideData = [
   {
     title: "First One",
