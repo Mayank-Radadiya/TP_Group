@@ -1,7 +1,11 @@
 import Hero from "@/components/landing/hero";
-import About from "@/components/About";
-import OurProduct from "@/components/OurProduct";
-import CarouselDemo from "@/components/CarouselDemo";
+import ClientStrip from "@/components/landing/client-strip";
+import About from "@/components/landing/about";
+import ProductsIndex from "@/components/landing/products-index";
+import Process from "@/components/landing/process";
+import Projects from "@/components/landing/projects";
+import PlantBand from "@/components/landing/plant-band";
+import CTABand from "@/components/landing/cta-band";
 import { Progressbar } from "@/components/Progressbar";
 
 const HomePage = () => {
@@ -18,11 +22,13 @@ const HomePage = () => {
           className="absolute top-0 bottom-0 left-[91.667%] hidden w-px bg-ink/5 md:block"
         />
         <Hero />
-        <div id="about">
-          <About />
-        </div>
-        <OurProduct />
-        <CarouselDemo />
+        <ClientStrip />
+        <About />
+        <ProductsIndex />
+        <Process />
+        <Projects />
+        <PlantBand />
+        <CTABand />
       </div>
     </main>
   );
