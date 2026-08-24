@@ -58,7 +58,7 @@ const ProjectsPage = () => {
               variants={fadeInUpVariants}
               className="text-4xl md:text-5xl font-bold mb-6 relative inline-block"
             >
-              Our <span className="gradient-text">Projects</span>
+              Our <span className="text-ink">Projects</span>
             </motion.h1>
             <motion.p
               variants={fadeInUpVariants}
@@ -68,10 +68,6 @@ const ProjectsPage = () => {
               across commercial, residential, infrastructure, and industrial
               sectors.
             </motion.p>
-
-            {/* Decorative elements */}
-            <div className="absolute top-10 right-10 w-24 h-24 rounded-full border-4 border-purple-100 opacity-40 animate-spin-slow"></div>
-            <div className="absolute bottom-10 left-10 w-16 h-16 rounded-full bg-indigo-100 opacity-30 animate-float"></div>
           </motion.div>
         </div>
       </section>

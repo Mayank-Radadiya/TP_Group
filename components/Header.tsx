@@ -28,10 +28,13 @@ const Header = () => {
     };
 
     document.documentElement.style.overflow = "hidden";
+    const content = document.querySelectorAll("main, footer");
+    content.forEach((el) => el.setAttribute("inert", ""));
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
       document.documentElement.style.overflow = "";
+      content.forEach((el) => el.removeAttribute("inert"));
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [menuOpen]);

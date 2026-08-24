@@ -62,7 +62,7 @@ const ContactPage = () => {
               variants={fadeInUpVariants}
               className="text-4xl md:text-5xl font-bold mb-6 relative inline-block"
             >
-              Get In <span className="gradient-text">Touch</span>
+              Get In <span className="text-ink">Touch</span>
             </motion.h1>
             <motion.p
               variants={fadeInUpVariants}
@@ -71,10 +71,6 @@ const ContactPage = () => {
               Have questions about our precast concrete solutions? We&apos;re
               here to help with expert advice and personalized service.
             </motion.p>
-
-            {/* Decorative elements */}
-            <div className="absolute top-10 right-10 w-24 h-24 rounded-full border-4 border-purple-100 opacity-40 animate-spin-slow"></div>
-            <div className="absolute bottom-10 left-10 w-16 h-16 rounded-full bg-indigo-100 opacity-30 animate-float"></div>
           </motion.div>
         </div>
       </section>

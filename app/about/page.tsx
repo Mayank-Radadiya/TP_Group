@@ -62,7 +62,7 @@ const AboutPage = () => {
               variants={fadeInUpVariants}
               className="text-4xl md:text-5xl font-bold mb-6"
             >
-              About <span className="gradient-text">Tirupati Precast</span>
+              About <span className="text-ink">Tirupati Precast</span>
             </motion.h1>
             <motion.p
               variants={fadeInUpVariants}
@@ -72,10 +72,6 @@ const AboutPage = () => {
               quality, innovation, and reliability to construction projects
               across the region.
             </motion.p>
-
-            {/* Decorative elements */}
-            <div className="absolute top-10 right-10 w-24 h-24 rounded-full border-4 border-purple-100 opacity-40 animate-spin-slow"></div>
-            <div className="absolute bottom-10 left-10 w-16 h-16 rounded-full bg-indigo-100 opacity-30 animate-float"></div>
           </motion.div>
         </div>
       </section>
@@ -339,7 +335,7 @@ const AboutPage = () => {
                 {/* Hover Overlay with States */}
                 <div className="absolute inset-0 flex flex-wrap justify-center items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md bg-white/40 rounded-lg flex-col">
                   {/* State List */}
-                  <span className="gradient-text text-3xl font-semibold">
+                  <span className="text-ink text-3xl font-semibold">
                     Branch List
                   </span>
 

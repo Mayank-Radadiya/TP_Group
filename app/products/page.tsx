@@ -176,7 +176,7 @@ const ProductsPage = () => {
               variants={fadeInVariants}
               className="text-4xl md:text-5xl font-bold mb-6"
             >
-              Our <span className="gradient-text">Products</span>
+              Our <span className="text-ink">Products</span>
             </motion.h1>
             <motion.p
               variants={fadeInVariants}
@@ -185,10 +185,6 @@ const ProductsPage = () => {
               Discover our comprehensive range of high-quality precast concrete
               solutions designed for durability, strength, and aesthetic appeal.
             </motion.p>
-
-            {/* Decorative elements */}
-            <div className="absolute top-10 right-10 w-24 h-24 rounded-full border-4 border-purple-100 opacity-40 animate-spin-slow"></div>
-            <div className="absolute bottom-10 left-10 w-16 h-16 rounded-full bg-indigo-100 opacity-30 animate-float"></div>
           </motion.div>
         </div>
       </section>
@@ -205,7 +201,7 @@ const ProductsPage = () => {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`px-6 py-3 rounded-full text-sm font-medium shadow-sm transition-all ${
                   selectedCategory === category.id
-                    ? "gradient-bg-1 text-white shadow-md"
+                    ? "bg-ink text-bone shadow-md"
                     : "bg-white text-gray-700 hover:shadow border border-gray-200"
                 }`}
               >
@@ -279,7 +275,7 @@ const ProductsPage = () => {
 
                   <div className="flex justify-end items-center">
                     <Button
-                      className="gradient-bg-1 text-white rounded-full shadow-md hover:shadow-lg"
+                      className="bg-ink text-bone rounded-full shadow-md hover:shadow-lg"
                       onClick={() => {
                         toast.success(
                           "Please fill out the form to get a quote or contact us."
@@ -359,7 +355,7 @@ const ProductsPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button className="gradient-bg-1 text-white rounded-full px-8 py-6 shadow-md hover:shadow-lg">
+                <Button className="bg-ink text-bone rounded-full px-8 py-6 shadow-md hover:shadow-lg">
                   Discuss Your Custom Project
                 </Button>
               </motion.div>

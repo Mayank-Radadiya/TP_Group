@@ -90,10 +90,6 @@ const GalleryPage: NextPage = () => {
               showcase our expertise and commitment to excellence in
               construction.
             </motion.p>
-
-            {/* Decorative shapes */}
-            <div className="absolute -right-10 sm:-right-16 top-0 w-24 sm:w-36 h-24 sm:h-36 rounded-full border-4 border-purple-200 opacity-20 animate-spin-slow"></div>
-            <div className="absolute -left-10 sm:-left-20 -bottom-8 sm:-bottom-10 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-purple-100 opacity-30 animate-float"></div>
           </div>
 
           {/* Category Filter */}
