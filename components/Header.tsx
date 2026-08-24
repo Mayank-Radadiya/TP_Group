@@ -64,10 +64,10 @@ const Header = () => {
               </Link>
             ))}
             <a
-              href="tel:+918884088778"
+              href="tel:+918884088878"
               className={`btn-wipe bg-ink px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-bone focus-visible:ring-offset-bone ${RING}`}
             >
-              +91 88840 88778
+              +91 88840 88878
             </a>
           </nav>
 
@@ -110,11 +110,11 @@ const Header = () => {
           <div>
             <p className="label-mono">Contact</p>
             <a
-              href="tel:+918884088778"
+              href="tel:+918884088878"
               onClick={() => setMenuOpen(false)}
               className={`mt-2 block font-display text-2xl font-extrabold uppercase tracking-tight text-bone focus-visible:ring-offset-ink ${RING}`}
             >
-              +91 88840 88778
+              +91 88840 88878
             </a>
             <p className="label-mono mt-1">EST. 2014 — BENGALURU</p>
           </div>
