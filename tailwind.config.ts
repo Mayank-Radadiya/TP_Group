@@ -9,22 +9,11 @@ export default {
   ],
   theme: {
     extend: {
-      animation: {
-        "line-shadow": "line-shadow 13s linear infinite",
-        "spin-slow": "spin 8s linear infinite",
-        float: "float 6s ease-in-out infinite",
-      },
-      keyframes: {
-        "line-shadow": {
-          "0%": { backgroundPosition: "0 0" },
-          "100%": { backgroundPosition: "100% -100%" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-12px)" },
-        },
-      },
       colors: {
+        bone: "#F2F0EB",
+        ink: "#191817",
+        concrete: "#8B8680",
+        safety: "#E84E0F",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -58,18 +47,11 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      fontFamily: {
+        display: ["var(--font-archivo)", "sans-serif"],
+        sans: ["var(--font-inter)", "sans-serif"],
+        mono: ["var(--font-plex-mono)", "monospace"],
       },
     },
   },
