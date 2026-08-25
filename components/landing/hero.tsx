@@ -151,23 +151,7 @@ const Hero = () => {
       className="relative left-1/2 w-screen -translate-x-1/2 bg-bone text-ink"
     >
       <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-7xl flex-col px-6">
-        <Fade
-          reduced={reduced}
-          delay={0.05}
-          className="flex items-baseline justify-between gap-6 border-b border-ink/10 pb-3.5 pt-8"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink/70">
-            Tirupati Precast Concrete Works
-          </span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-ink/45 md:block">
-            Walls · Panels · Structurals
-          </span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-ink/45 lg:block">
-            DWG NO. TP-CW-01 — Scale 1:50 — Rev 2026
-          </span>
-        </Fade>
-
-        <div className="relative z-10 flex-1 pt-10 pb-[calc(min(44vh,520px)+2rem)] lg:pt-14 lg:pb-[calc(min(44vh,520px)+3rem)]">
+        <div className="relative z-10 flex-1 pt-14 pb-[calc(min(44vh,520px)+2rem)] lg:pt-24 lg:pb-[calc(min(44vh,520px)+3rem)]">
           <h1 className="font-display text-[clamp(2.9rem,7.6vw,7.75rem)] font-black uppercase leading-[0.92] tracking-[-0.02em]">
             <Hoist delay={0.35} reduced={reduced}>
               Drawn to scale<span className="text-safety">.</span>
@@ -182,8 +166,8 @@ const Hero = () => {
             delay={0.75}
             className="mt-8 max-w-md text-sm leading-relaxed text-ink/60 md:text-[15px]"
           >
-            Factory-cast compound walls, engineered at our Yelahanka plant and
-            erected in days — not months.
+            Walls cast at our Yelahanka plant. Erected on your site in
+            days.
           </Fade>
 
           <Fade
@@ -292,7 +276,9 @@ const Hero = () => {
                 x={(b.left + b.right) / 2}
                 y={WALL_TOP + 28}
                 textAnchor="middle"
-                className="font-mono text-[11px] uppercase tracking-[0.1em]"
+                className="stroke-bone font-mono text-[11px] uppercase tracking-[0.1em]"
+                style={{ paintOrder: "stroke" }}
+                strokeWidth={4}
                 initial={false}
                 animate={{
                   opacity: bay === i ? 1 : 0,
@@ -314,7 +300,9 @@ const Hero = () => {
             x={720}
             y={520}
             textAnchor="middle"
-            className="fill-ink/60 font-mono text-[11px] uppercase tracking-[0.12em]"
+            className="stroke-bone fill-ink/60 font-mono text-[11px] uppercase tracking-[0.12em]"
+            style={{ paintOrder: "stroke" }}
+            strokeWidth={4}
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.15 }}
@@ -331,57 +319,14 @@ const Hero = () => {
             x={58}
             y={314}
             textAnchor="end"
-            className="fill-ink/60 font-mono text-[11px] tracking-[0.08em]"
+            className="stroke-bone font-mono text-[11px] tracking-[0.08em]"
+            style={{ paintOrder: "stroke" }}
+            strokeWidth={4}
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.1 }}
           >
             <HeightValue reduced={reduced} delay={1.1} />
-          </motion.text>
-
-          <Draw
-            d="M1040 140L1104 92H1246"
-            delay={1.05}
-            reduced={reduced}
-            className="stroke-ink/40"
-          />
-          <motion.text
-            x={1108}
-            y={86}
-            className="fill-ink/50 font-mono text-[10px] uppercase tracking-[0.12em]"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-          >
-            RCC post 150 × 150
-          </motion.text>
-
-          <Draw
-            d="M740 315L812 262H950"
-            delay={1.1}
-            reduced={reduced}
-            className="stroke-ink/40"
-          />
-          <motion.text
-            x={816}
-            y={256}
-            className="fill-ink/50 font-mono text-[10px] uppercase tracking-[0.12em]"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.25 }}
-          >
-            Panel — cast in steel moulds
-          </motion.text>
-
-          <motion.text
-            x={120}
-            y={96}
-            className="fill-ink/40 font-mono text-[10px] uppercase tracking-[0.14em]"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-          >
-            Elevation — compound wall, type CW-01
           </motion.text>
         </svg>
       </motion.div>
