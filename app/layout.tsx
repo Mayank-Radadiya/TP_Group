@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { Archivo, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/site/Header";
+import Footer from "@/components/site/Footer";
+import SmoothScroll from "@/components/site/SmoothScroll";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/next";
 
 const archivo = Archivo({
   variable: "--font-archivo",
-  weight: ["800", "900"],
   subsets: ["latin"],
+  axes: ["wdth"],
 });
 
 const inter = Inter({
@@ -24,9 +25,19 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tirupati Precast — Precast Concrete Works, Bengaluru",
+  title: {
+    default: "Tirupati Precast — The Power of Precast",
+    template: "%s — Tirupati Precast",
+  },
   description:
-    "Precast compound walls, structural elements and decorative concrete, manufactured in our Yelahanka plant and erected fast. Since 2014.",
+    "Manufacturer of 75mm Single Panel Compound Wall, Precast 'U' Drain, Earth Retaining Wall and all types of precast products. ISO 9001:2015. 16 branches across India.",
+  metadataBase: new URL("https://www.tirupatiprecast.in"),
+  openGraph: {
+    title: "Tirupati Precast — The Power of Precast",
+    description:
+      "Precast compound walls, U-drains and retaining walls, factory-cast and erected fast. 16 branches across India. ISO 9001:2015.",
+    images: ["/images/1.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -37,13 +48,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${archivo.variable} ${inter.variable} ${plexMono.variable} bg-bone text-ink font-sans antialiased selection:bg-safety selection:text-bone`}
+        className={`${archivo.variable} ${inter.variable} ${plexMono.variable} bg-paper text-ink font-sans antialiased selection:bg-red selection:text-paper`}
       >
-        <Toaster toastOptions={{ duration: 3000 }} />
-
-        <Header />
-        {children}
-        <Footer />
+        <SmoothScroll>
+          <Toaster toastOptions={{ duration: 3000 }} />
+          <Header />
+          {children}
+          <Footer />
+        </SmoothScroll>
         <Analytics />
       </body>
     </html>
