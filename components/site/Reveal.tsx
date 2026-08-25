@@ -30,7 +30,10 @@ export function Reveal({
   );
 }
 
-/* Word-by-word clip-mask reveal for display headlines */
+/* Word-by-word clip-mask reveal for display headlines.
+   whileInView lives on the unclipped outer span — observing the clipped
+   inner span never fires (translated target is clipped out by
+   overflow-hidden, giving an empty intersection). */
 export function KineticHeadline({
   text,
   className = "",
@@ -43,18 +46,27 @@ export function KineticHeadline({
   const reduce = useReducedMotion();
   const words = text.split(" ");
   return (
-    <span className={className} aria-label={text} role="text">
+    <motion.span
+      className={className}
+      aria-label={text}
+      role="text"
+      initial={reduce ? false : "hidden"}
+      whileInView="show"
+      viewport={{ once: true }}
+      variants={{
+        show: { transition: { staggerChildren: 0.07, delayChildren: delay } },
+      }}
+    >
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden pb-[0.08em] -mb-[0.08em] align-bottom">
           <motion.span
             className="inline-block will-change-transform"
-            initial={reduce ? false : { y: "110%" }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.8,
-              delay: delay + i * 0.07,
-              ease: [0.22, 1, 0.36, 1],
+            variants={{
+              hidden: { y: "110%" },
+              show: {
+                y: 0,
+                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+              },
             }}
           >
             {w}
@@ -62,6 +74,6 @@ export function KineticHeadline({
           </motion.span>
         </span>
       ))}
-    </span>
+    </motion.span>
   );
 }
