@@ -76,51 +76,6 @@
   .btn-wipe:focus-visible::after {
     @apply translate-x-0;
   }
-
-  .type-concrete {
-    color: var(--ink);
-  }
-
-  @supports (-webkit-background-clip: text) or (background-clip: text) {
-    .type-concrete {
-      background-image: url("/images/5.jpg");
-      background-size: cover;
-      background-position: 50% 78%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-  }
-
-  .marquee-track {
-    animation: marquee 36s linear infinite;
-  }
-
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes vinyl-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes vinyl-fade-out {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
 }
 
 html {

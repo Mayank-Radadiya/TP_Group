@@ -49,23 +49,40 @@ const Header = () => {
           >
             <span className="font-display text-lg font-extrabold uppercase leading-none tracking-tight text-ink">
               Tirupati Precast
+              <span aria-hidden className="ml-1.5 inline-block h-1.5 w-1.5 bg-safety" />
             </span>
             <span className="label-mono mt-1">EST. 2014 — BENGALURU</span>
           </Link>
 
-          <nav className="hidden items-center gap-8 md:flex">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={pathname === item.href ? "page" : undefined}
-                className={`font-mono text-xs uppercase tracking-[0.2em] transition-colors hover:text-safety focus-visible:ring-offset-bone ${
-                  pathname === item.href ? "text-safety" : "text-ink"
-                } ${RING}`}
-              >
-                {item.name}
-              </Link>
-            ))}
+          <nav className="hidden items-center gap-7 md:flex lg:gap-8">
+            {NAV_ITEMS.map((item, i) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`group font-mono text-[11px] uppercase tracking-[0.18em] transition-colors focus-visible:ring-offset-bone ${RING}`}
+                >
+                  <span
+                    className={`mr-1.5 text-[9px] tracking-[0.1em] transition-colors ${
+                      active
+                        ? "text-safety"
+                        : "text-ink/35 group-hover:text-safety"
+                    }`}
+                  >
+                    0{i + 1}
+                  </span>
+                  <span
+                    className={`transition-colors ${
+                      active ? "text-safety" : "text-ink group-hover:text-safety"
+                    }`}
+                  >
+                    {item.name}
+                  </span>
+                </Link>
+              );
+            })}
             <a
               href="tel:+918884088878"
               className={`btn-wipe bg-ink px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-bone focus-visible:ring-offset-bone ${RING}`}

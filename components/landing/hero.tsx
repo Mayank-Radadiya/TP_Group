@@ -1,36 +1,51 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
+  animate,
   motion,
   useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
 
-// ─── constants ────────────────────────────────────────────────────────────────
-
-const SPECS = [
-  "1500+ PROJECTS DELIVERED",
-  "POURING SINCE 2014",
-  "ISO CERTIFIED FACILITY",
-  "M25 GRADE CONCRETE",
-  "CAST IN STEEL MOULDS",
-  "ERECTED IN DAYS, NOT MONTHS",
-];
-
-const STATS = [
-  { value: "1500+", label: "Projects" },
-  { value: "2014",  label: "Est. Year" },
-  { value: "M25",   label: "Grade", accent: true },
-] as const;
-
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-// ─── Hoist ────────────────────────────────────────────────────────────────────
-// Masked-overflow line reveal — each word slides up from beneath its clip.
+const POST_X = [120, 420, 720, 1020, 1320];
+const POST_W = 36;
+const WALL_TOP = 120;
+const GROUND_Y = 500;
+const COURSES = [185, 250, 315, 380, 445];
+const BAYS = POST_X.slice(0, -1).map((x, i) => ({
+  left: x + POST_W / 2,
+  right: POST_X[i + 1] - POST_W / 2,
+}));
+
+const HATCH = Array.from({ length: 30 }, (_, i) => `M${24 + i * 48} 502l-16 16`).join(" ");
+
+function Fade({
+  delay,
+  reduced,
+  className,
+  children,
+}: {
+  delay: number;
+  reduced: boolean;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      className={className}
+      initial={reduced ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 function Hoist({
   delay,
@@ -46,9 +61,9 @@ function Hoist({
     <span className="block overflow-hidden">
       <motion.span
         className="block"
-        initial={{ y: "110%" }}
+        initial={{ y: "112%" }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.85, delay, ease: EASE }}
+        transition={{ duration: 0.9, delay, ease: EASE }}
       >
         {children}
       </motion.span>
@@ -56,230 +71,320 @@ function Hoist({
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+function Draw({
+  d,
+  delay,
+  reduced,
+  className = "stroke-ink",
+  sw = 1,
+}: {
+  d: string;
+  delay: number;
+  reduced: boolean;
+  className?: string;
+  sw?: number;
+}) {
+  return (
+    <motion.path
+      d={d}
+      fill="none"
+      strokeWidth={sw}
+      className={className}
+      initial={reduced ? false : { pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
+    />
+  );
+}
+
+function Tick({ x, y, delay, reduced }: { x: number; y: number; delay: number; reduced: boolean }) {
+  return (
+    <motion.path
+      d="M-4 4L4 -4"
+      transform={`translate(${x} ${y})`}
+      className="stroke-ink"
+      strokeWidth={1}
+      initial={reduced ? false : { pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 0.3, delay, ease: EASE }}
+    />
+  );
+}
+
+function HeightValue({ reduced, delay }: { reduced: boolean; delay: number }) {
+  const [v, setV] = useState(reduced ? 2.1 : 0);
+
+  useEffect(() => {
+    if (reduced) return;
+    const controls = animate(0, 2.1, {
+      duration: 0.9,
+      delay,
+      ease: "easeOut",
+      onUpdate: setV,
+    });
+    return () => controls.stop();
+  }, [reduced, delay]);
+
+  return <>{v.toFixed(2)} m</>;
+}
+
+const TITLE_ROWS = [
+  ["Product", "Compound wall panels"],
+  ["Concrete", "M25 grade, steel moulds"],
+  ["Plant", "Yelahanka, Bengaluru"],
+  ["Lead time", "Erected in days"],
+];
 
 const Hero = () => {
   const reduced = useReducedMotion() ?? false;
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Subtle parallax on the left image as the hero scrolls away
+  const [bay, setBay] = useState<number | null>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "7%"]);
+  const drawY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
     <section
       ref={sectionRef}
-      aria-label="Hero"
-      className="flex min-h-svh flex-col"
+      className="relative left-1/2 w-screen -translate-x-1/2 bg-bone text-ink"
     >
-      {/* ── Split: image left | text right ──────────────────────────────────── */}
-      <div className="flex flex-1 flex-col lg:flex-row">
+      <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-7xl flex-col px-6">
+        <Fade
+          reduced={reduced}
+          delay={0.05}
+          className="flex items-baseline justify-between gap-6 border-b border-ink/10 pb-3.5 pt-8"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink/70">
+            Tirupati Precast Concrete Works
+          </span>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-ink/45 md:block">
+            Walls · Panels · Structurals
+          </span>
+          <span className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-ink/45 lg:block">
+            DWG NO. TP-CW-01 — Scale 1:50 — Rev 2026
+          </span>
+        </Fade>
 
-        {/* ── LEFT PANEL: full-bleed site photograph ────────────────────────── */}
-        {/* Mobile: fixed 260px tall image strip. Desktop: 55% width, full height. */}
-        <div className="relative h-[260px] overflow-hidden lg:h-auto lg:w-[55%] lg:flex-none">
-          <motion.div
-            className="absolute inset-0"
-            style={{ transformOrigin: "center" }}
-            initial={reduced ? false : { opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, ease: "easeOut" }}
-          >
-            {/* Parallax wrapper — extends beyond container, shifts on scroll */}
-            <motion.div
-              className="absolute inset-0 -top-[4%] h-[108%]"
-              style={reduced ? undefined : { y: imgY }}
-            >
-              <Image
-                src="/images/main.jpg"
-                alt="Precast compound wall installation at a Bengaluru construction site"
-                fill
-                priority
-                sizes="(min-width: 1024px) 55vw, 100vw"
-                className="object-cover"
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* Figcaption — bottom-left of image, bone text on dark photo */}
-          <motion.p
-            className="absolute bottom-4 left-5 font-mono text-[9px] uppercase tracking-[0.2em] text-bone/60"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-          >
-            Fig. 01 — Compound Wall, Bengaluru
-          </motion.p>
-
-          {/* Bottom fade — ties the image into the split at the horizontal join on mobile */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink to-transparent lg:hidden"
-          />
-        </div>
-
-        {/* ── ORANGE SEAM — vertical rule, desktop only ─────────────────────── */}
-        <motion.div
-          aria-hidden
-          className="hidden w-[3px] shrink-0 bg-safety lg:block"
-          style={{ transformOrigin: "top" }}
-          initial={reduced ? false : { scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 0.85, delay: 0.25, ease: "easeInOut" }}
-        />
-
-        {/* ── RIGHT PANEL: ink background, editorial typography ─────────────── */}
-        <div className="flex flex-1 flex-col bg-ink px-8 py-10 xl:px-14 xl:py-12">
-
-          {/* Top metadata bar */}
-          <motion.div
-            className="flex items-center justify-between border-b border-bone/10 pb-5"
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone/30">
-              Tirupati Precast Concrete Works
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone/30">
-              Bengaluru, KA
-            </span>
-          </motion.div>
-
-          {/* Flexible spacer — pushes content toward the bottom for editorial weight */}
-          <div className="min-h-[2rem] flex-1" />
-
-          {/* ── Headline ──────────────────────────────────────────────────────── */}
-          {/* clamp is conservative — max 4.5rem so it never overflows the panel. */}
-          <h1
-            className="font-display font-black uppercase leading-[0.88] tracking-tight text-bone"
-            style={{ fontSize: "clamp(2.5rem, 3.6vw, 4.5rem)" }}
-          >
-            <Hoist delay={0.48} reduced={reduced}>
-              Poured
+        <div className="relative z-10 flex-1 pt-10 pb-[calc(min(44vh,520px)+2rem)] lg:pt-14 lg:pb-[calc(min(44vh,520px)+3rem)]">
+          <h1 className="font-display text-[clamp(2.9rem,7.6vw,7.75rem)] font-black uppercase leading-[0.92] tracking-[-0.02em]">
+            <Hoist delay={0.35} reduced={reduced}>
+              Drawn to scale<span className="text-safety">.</span>
             </Hoist>
-            <Hoist delay={0.60} reduced={reduced}>
-              Once<span className="text-safety">.</span>
-            </Hoist>
-
-            {/* Orange rule — horizontal separator between the two phrases */}
-            <motion.span
-              aria-hidden
-              className="my-3 block h-[2px] bg-safety"
-              style={{ width: "3rem", transformOrigin: "left" }}
-              initial={reduced ? false : { scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.5, delay: 0.68, ease: "easeOut" }}
-            />
-
-            <Hoist delay={0.74} reduced={reduced}>
-              {/* .type-concrete background-clips concrete texture onto the letterforms */}
-              <span className="type-concrete">Standing</span>
-            </Hoist>
-            <Hoist delay={0.84} reduced={reduced}>
-              For Decades<span className="text-safety">.</span>
+            <Hoist delay={0.47} reduced={reduced}>
+              Built to outlast<span className="text-safety">.</span>
             </Hoist>
           </h1>
 
-          {/* Body copy */}
-          <motion.p
-            className="mt-7 max-w-[36ch] font-sans text-sm leading-relaxed text-bone/50 md:text-base"
-            initial={reduced ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.0, ease: "easeOut" }}
+          <Fade
+            reduced={reduced}
+            delay={0.75}
+            className="mt-8 max-w-md text-sm leading-relaxed text-ink/60 md:text-[15px]"
           >
-            Factory-cast panels arrive on site finished and ready to erect —
-            walls go up in days, not months.
-          </motion.p>
+            Factory-cast compound walls, engineered at our Yelahanka plant and
+            erected in days — not months.
+          </Fade>
 
-          {/* Stats row */}
-          <motion.div
-            className="mt-8 flex gap-8 border-t border-bone/10 pt-6"
-            initial={reduced ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.1, ease: "easeOut" }}
+          <Fade
+            reduced={reduced}
+            delay={0.85}
+            className="mt-8 flex flex-wrap gap-3"
           >
-            {STATS.map(({ value, label, accent }) => (
-              <div key={label}>
-                <p
-                  className={`font-display text-2xl font-black uppercase tracking-tight ${
-                    accent ? "text-safety" : "text-bone"
-                  }`}
-                >
-                  {value}
-                </p>
-                <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.15em] text-bone/30">
-                  {label}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* CTA buttons */}
-          <motion.div
-            className="mt-6 flex flex-wrap gap-3"
-            initial={reduced ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.2, ease: "easeOut" }}
-          >
-            {/* Primary: bone bg, ink text, safety-orange wipe on hover */}
             <Link
               href="/products"
-              className="btn-wipe bg-bone px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-ink"
+              className="btn-wipe bg-ink px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.08em] text-bone"
             >
               Explore Products
             </Link>
-            {/* Secondary: ghost border */}
             <Link
               href="/contact"
-              className="border border-bone/25 px-7 py-3.5 font-mono text-xs uppercase tracking-widest text-bone transition-colors hover:bg-bone/8"
+              className="border border-ink/30 px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.08em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-bone"
             >
               Get a Quote
             </Link>
-          </motion.div>
+          </Fade>
+        </div>
 
-          {/* Bottom certification tag */}
-          <motion.div
-            className="mt-8 border-t border-bone/10 pt-5"
+        <Fade
+          reduced={reduced}
+          delay={1.25}
+          className="absolute right-6 bottom-10 z-20 hidden lg:block"
+        >
+          <dl className="grid grid-cols-[auto_auto] border border-ink/15 bg-bone/95">
+            {TITLE_ROWS.map(([k, v], r) => (
+              <div key={k} className="col-span-2 grid grid-cols-subgrid">
+                <dt
+                  className={`border-r border-ink/10 px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-ink/45 ${
+                    r < TITLE_ROWS.length - 1 ? "border-b" : ""
+                  }`}
+                >
+                  {k}
+                </dt>
+                <dd
+                  className={`px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.1em] text-ink ${
+                    r < TITLE_ROWS.length - 1 ? "border-b border-ink/10" : ""
+                  }`}
+                >
+                  {v}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Fade>
+      </div>
+
+      <motion.div
+        aria-hidden
+          className="absolute inset-x-0 bottom-0 z-0 h-[44vh] max-h-[520px] overflow-hidden"
+        style={reduced ? undefined : { y: drawY }}
+      >
+        <svg
+          viewBox="0 0 1440 560"
+          preserveAspectRatio="xMidYMax slice"
+          className="h-full w-full"
+        >
+          <Draw d={HATCH} delay={0.2} reduced={reduced} className="stroke-ink/50" />
+          <Draw d={`M0 ${GROUND_Y}H1440`} delay={0.15} reduced={reduced} sw={1.5} />
+
+          {BAYS.map((b, j) => (
+            <g key={j}>
+              {COURSES.map((y, k) => (
+                <Draw
+                  key={y}
+                  d={`M${b.left} ${y}H${b.right}`}
+                  delay={0.55 + j * 0.06 + k * 0.045}
+                  reduced={reduced}
+                  className="stroke-ink/60"
+                />
+              ))}
+            </g>
+          ))}
+
+          {POST_X.map((x, i) => (
+            <Draw
+              key={x}
+              d={`M${x - POST_W / 2} ${GROUND_Y}V${WALL_TOP}H${x + POST_W / 2}V${GROUND_Y}`}
+              delay={0.3 + i * 0.08}
+              reduced={reduced}
+            />
+          ))}
+
+          {BAYS.map((b, i) => (
+            <g
+              key={i}
+              onMouseEnter={() => setBay(i)}
+              onMouseLeave={() => setBay(null)}
+            >
+              <motion.rect
+                x={b.left}
+                y={WALL_TOP}
+                width={b.right - b.left}
+                height={GROUND_Y - WALL_TOP}
+                className="cursor-crosshair"
+                initial={false}
+                animate={{
+                  fill: bay === i ? "rgba(25,24,23,0.05)" : "rgba(25,24,23,0)",
+                }}
+                transition={{ duration: 0.25 }}
+              />
+              <motion.text
+                x={(b.left + b.right) / 2}
+                y={WALL_TOP + 28}
+                textAnchor="middle"
+                className="font-mono text-[11px] uppercase tracking-[0.1em]"
+                initial={false}
+                animate={{
+                  opacity: bay === i ? 1 : 0,
+                  fill: bay === i ? "#E84E0F" : "#8B8680",
+                }}
+                transition={{ duration: 0.25 }}
+              >
+                3.00 m
+              </motion.text>
+            </g>
+          ))}
+
+          <Draw d="M120 504V532" delay={0.9} reduced={reduced} className="stroke-ink/35" />
+          <Draw d="M1320 504V532" delay={0.9} reduced={reduced} className="stroke-ink/35" />
+          <Draw d="M120 528H1320" delay={1} reduced={reduced} className="stroke-ink/60" />
+          <Tick x={120} y={528} delay={1.05} reduced={reduced} />
+          <Tick x={1320} y={528} delay={1.05} reduced={reduced} />
+          <motion.text
+            x={720}
+            y={520}
+            textAnchor="middle"
+            className="fill-ink/60 font-mono text-[11px] uppercase tracking-[0.12em]"
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.35 }}
+            transition={{ duration: 0.5, delay: 1.15 }}
           >
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-bone/20">
-              ISO Certified Facility — Yelahanka Plant — Est. 2014
-            </p>
-          </motion.div>
-        </div>
-      </div>
+            12.60 m — 4 bays
+          </motion.text>
 
-      {/* ── Marquee strip — full width across both panels ─────────────────────── */}
-      <div
-        className="marquee overflow-hidden border-t border-ink/10 bg-bone py-4"
-        aria-label="Company specifications"
-      >
-        <div className="marquee-track flex w-max items-center">
-          {[0, 1].map((copy) => (
-            <ul
-              key={copy}
-              aria-hidden={copy === 1}
-              className="flex shrink-0 items-center"
-            >
-              {SPECS.map((spec) => (
-                <li
-                  key={spec}
-                  className="flex items-center font-mono text-[11px] uppercase tracking-[0.2em] text-concrete"
-                >
-                  <span className="mx-6 h-1.5 w-1.5 bg-safety" aria-hidden />
-                  {spec}
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </div>
+          <Draw d="M64 120H98" delay={0.9} reduced={reduced} className="stroke-ink/35" />
+          <Draw d="M64 500H98" delay={0.9} reduced={reduced} className="stroke-ink/35" />
+          <Draw d="M68 120V500" delay={1} reduced={reduced} className="stroke-ink/60" />
+          <Tick x={68} y={120} delay={1.05} reduced={reduced} />
+          <Tick x={68} y={500} delay={1.05} reduced={reduced} />
+          <motion.text
+            x={58}
+            y={314}
+            textAnchor="end"
+            className="fill-ink/60 font-mono text-[11px] tracking-[0.08em]"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.1 }}
+          >
+            <HeightValue reduced={reduced} delay={1.1} />
+          </motion.text>
+
+          <Draw
+            d="M1040 140L1104 92H1246"
+            delay={1.05}
+            reduced={reduced}
+            className="stroke-ink/40"
+          />
+          <motion.text
+            x={1108}
+            y={86}
+            className="fill-ink/50 font-mono text-[10px] uppercase tracking-[0.12em]"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+          >
+            RCC post 150 × 150
+          </motion.text>
+
+          <Draw
+            d="M740 315L812 262H950"
+            delay={1.1}
+            reduced={reduced}
+            className="stroke-ink/40"
+          />
+          <motion.text
+            x={816}
+            y={256}
+            className="fill-ink/50 font-mono text-[10px] uppercase tracking-[0.12em]"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.25 }}
+          >
+            Panel — cast in steel moulds
+          </motion.text>
+
+          <motion.text
+            x={120}
+            y={96}
+            className="fill-ink/40 font-mono text-[10px] uppercase tracking-[0.14em]"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+          >
+            Elevation — compound wall, type CW-01
+          </motion.text>
+        </svg>
+      </motion.div>
     </section>
   );
 };
