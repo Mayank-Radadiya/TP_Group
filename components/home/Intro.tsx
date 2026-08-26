@@ -3,6 +3,7 @@
 import CountUp from "@/components/site/CountUp";
 import PanelImage from "@/components/site/PanelImage";
 import { Reveal, KineticHeadline } from "@/components/site/Reveal";
+import { CropMarks } from "@/components/site/CropMarks";
 import { STATS } from "@/lib/data";
 
 export default function Intro() {
@@ -42,7 +43,8 @@ export default function Intro() {
           <div className="mt-16 grid grid-cols-2 gap-px bg-ink/10 md:grid-cols-4">
             {STATS.map((s, i) => (
               <Reveal key={s.label} delay={i * 0.08} className="bg-paper">
-                <div className="flex h-full flex-col justify-between gap-6 p-5">
+                <div className="relative flex h-full flex-col justify-between gap-6 p-5">
+                  <CropMarks />
                   <CountUp
                     value={s.value}
                     prefix={"prefix" in s ? s.prefix : ""}

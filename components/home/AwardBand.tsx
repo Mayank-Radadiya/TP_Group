@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "@/components/site/Reveal";
+import { CropMarks, GRID_PAPER_DARK } from "@/components/site/CropMarks";
 import { AWARD } from "@/lib/data";
 
 export default function AwardBand() {
@@ -18,6 +19,9 @@ export default function AwardBand() {
 
   return (
     <section ref={ref} className="dark-band grain relative overflow-hidden bg-ink text-paper">
+      {/* inverted blueprint ground */}
+      <div aria-hidden className="pointer-events-none absolute inset-0" style={GRID_PAPER_DARK} />
+      <CropMarks light />
       <div className="sheet relative grid gap-14 py-24 md:py-32 lg:grid-cols-12">
         <div className="lg:col-span-6">
           <Reveal>

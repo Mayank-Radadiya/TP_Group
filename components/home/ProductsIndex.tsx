@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { Reveal } from "@/components/site/Reveal";
+import { CropMarks, GRID_PAPER } from "@/components/site/CropMarks";
 import { PRODUCTS } from "@/lib/data";
 
 /* Mini technical glyphs per product — line drawings, not photos */
@@ -38,7 +39,10 @@ function ProductGlyph({ slug }: { slug: string }) {
 
 export default function ProductsIndex() {
   return (
-    <section className="hairline-b">
+    <section className="hairline-b relative overflow-hidden">
+      {/* drafting ground */}
+      <div aria-hidden className="pointer-events-none absolute inset-0" style={GRID_PAPER} />
+      <CropMarks />
       <div className="sheet py-24 md:py-32">
         <Reveal>
           <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
@@ -67,20 +71,14 @@ export default function ProductsIndex() {
                   <span className="col-span-2 font-mono text-[11px] tracking-[0.22em] text-red md:col-span-1">
                     {p.index}
                   </span>
-                  <span className="col-span-10 md:col-span-5">
+                  <span className="col-span-10 md:col-span-4">
                     <span className="font-display block text-[clamp(1.4rem,3vw,2.4rem)] transition-colors duration-300 group-hover:text-red">
                       {p.name}
                     </span>
-                    <span className="mt-2 hidden flex-wrap gap-2 md:flex">
-                      {p.chips.map((c) => (
-                        <span key={c} className="chip">
-                          {c}
-                        </span>
-                      ))}
-                    </span>
                   </span>
-                  <span className="col-span-8 hidden text-sm leading-relaxed text-ink-soft md:col-span-4 md:block">
-                    {p.summary.split(". ")[0]}.
+                  {/* CAD title-block readout */}
+                  <span className="col-span-12 font-mono text-[10px] uppercase tracking-[0.18em] text-concrete md:col-span-4 md:text-[11px]">
+                    {p.chips.join("  ·  ")}
                   </span>
                   <span className="col-span-2 flex justify-end">
                     <span className="h-16 w-24 text-ink/35 transition-all duration-300 group-hover:text-red md:h-20 md:w-32">

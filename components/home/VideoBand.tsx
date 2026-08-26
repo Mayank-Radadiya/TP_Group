@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/components/site/Reveal";
+import { CropMarks } from "@/components/site/CropMarks";
 import { COMPANY } from "@/lib/data";
 
 export default function VideoBand() {
@@ -28,6 +29,10 @@ export default function VideoBand() {
 
         <Reveal delay={0.1}>
           <div className="relative border border-ink/15">
+            <span className="pointer-events-none absolute left-3 top-3 z-10 border border-ink/20 bg-paper/90 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-concrete">
+              Fig. 05 — Site recording
+            </span>
+            <CropMarks />
             <div className="relative aspect-video">
               <iframe
                 className="absolute inset-0 h-full w-full"

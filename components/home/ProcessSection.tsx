@@ -38,11 +38,17 @@ export default function ProcessSection() {
         <ol className="lg:col-span-7">
           {PROCESS.map((step, i) => (
             <Reveal key={step.n} delay={i * 0.05}>
-              <li className="hairline-t group grid grid-cols-12 gap-4 py-10 transition-colors md:py-12">
-                <span className="col-span-3 font-display text-3xl text-ink/20 transition-colors duration-300 group-hover:text-red md:col-span-2 md:text-5xl">
-                  {step.n}
-                </span>
-                <div className="col-span-9 md:col-span-10">
+              <li className="group grid grid-cols-[auto_1fr] gap-x-6 py-8 md:gap-x-10 md:py-9">
+                {/* op plate + connector rule */}
+                <div className="flex flex-col items-center">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-ink/25 font-mono text-sm tracking-[0.18em] text-red transition-colors duration-300 group-hover:border-red">
+                    {step.n}
+                  </span>
+                  {i < PROCESS.length - 1 && (
+                    <span aria-hidden className="mt-3 w-px flex-1 bg-ink/15" />
+                  )}
+                </div>
+                <div className="pt-0.5">
                   <div className="flex flex-wrap items-baseline justify-between gap-3">
                     <h3 className="font-display text-2xl md:text-3xl">{step.title}</h3>
                     <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-concrete">
@@ -56,7 +62,6 @@ export default function ProcessSection() {
               </li>
             </Reveal>
           ))}
-          <div className="hairline-t" />
         </ol>
       </div>
     </section>

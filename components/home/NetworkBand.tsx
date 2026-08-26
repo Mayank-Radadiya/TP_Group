@@ -28,28 +28,37 @@ export default function NetworkBand() {
         </div>
 
         <div className="lg:col-span-7">
-          <ul className="grid gap-px bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
-            {BRANCH_STATES.map((s, i) => (
-              <Reveal key={s} delay={i * 0.05} y={12}>
-                <li className="group flex h-full items-center justify-between bg-paper p-5 transition-colors duration-300 hover:bg-ink">
-                  <span className="font-wide text-sm tracking-[0.06em] text-ink transition-colors group-hover:text-paper">
-                    {s}
-                  </span>
-                  <span className="font-mono text-[10px] tracking-[0.18em] text-concrete transition-colors group-hover:text-red">
-                    {String(i + 1).padStart(2, "0")}
+          <div className="border border-ink/15">
+            {/* schedule plate header */}
+            <div className="hairline-b flex items-center justify-between gap-4 px-5 py-3">
+              <span className="label-mono">Schedule A — Branch network</span>
+              <span className="font-mono text-[10px] tracking-[0.18em] text-red">
+                {BRANCH_STATES.length.toString().padStart(2, "0")} STATES · 16 BRANCHES
+              </span>
+            </div>
+            <ul className="grid gap-px bg-ink/10 sm:grid-cols-2 lg:grid-cols-3">
+              {BRANCH_STATES.map((s, i) => (
+                <Reveal key={s} delay={i * 0.05} y={12}>
+                  <li className="group flex h-full items-center justify-between bg-paper p-5 transition-colors duration-300 hover:bg-ink">
+                    <span className="font-wide text-sm tracking-[0.06em] text-ink transition-colors group-hover:text-paper">
+                      {s}
+                    </span>
+                    <span className="font-mono text-[10px] tracking-[0.18em] text-concrete transition-colors group-hover:text-red">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </li>
+                </Reveal>
+              ))}
+              <Reveal delay={BRANCH_STATES.length * 0.05} y={12}>
+                <li className="flex h-full flex-col justify-between gap-4 bg-ink p-5 text-paper">
+                  <span className="font-display text-4xl leading-none">16</span>
+                  <span className="label-mono !text-paper/50 !tracking-[0.14em]">
+                    Branches · HQ {COMPANY.websites[0].replace("www.", "")}
                   </span>
                 </li>
               </Reveal>
-            ))}
-            <Reveal delay={BRANCH_STATES.length * 0.05} y={12}>
-              <li className="flex h-full flex-col justify-between gap-4 bg-ink p-5 text-paper">
-                <span className="font-display text-4xl leading-none">16</span>
-                <span className="label-mono !text-paper/50 !tracking-[0.14em]">
-                  Branches · HQ {COMPANY.websites[0].replace("www.", "")}
-                </span>
-              </li>
-            </Reveal>
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
