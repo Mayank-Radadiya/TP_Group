@@ -1,10 +1,7 @@
 "use client";
 
 import {
-  useEffect,
   useRef,
-  useState,
-  type CSSProperties,
   type MouseEvent,
 } from "react";
 import {
@@ -16,6 +13,12 @@ import {
   useTransform,
 } from "framer-motion";
 import { KineticHeadline } from "@/components/site/Reveal";
+import { CropMarks, GRID_PAPER as GRID_STYLE } from "@/components/site/CropMarks";
+import {
+  CadCursor,
+  EASE,
+  useDrawHelpers,
+} from "@/components/site/TechDrawing";
 
 /* client-verified facts only — no invented numbers */
 const STATS_BAR = [
@@ -23,8 +26,6 @@ const STATS_BAR = [
   { k: "Quality system", v: "ISO 9001:2015 Certified" },
   { k: "Circular by design", v: "~100% of panels & 90% of columns reusable" },
 ];
-
-const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* Wall elevation geometry (viewBox 1200×470) */
 const COL_W = 18;
@@ -52,31 +53,8 @@ function RedPeriod({ delay }: { delay: number }) {
   );
 }
 
-/* drafting crop marks pinned to the sheet corners */
-function CropMarks() {
-  const base = "pointer-events-none absolute h-3.5 w-3.5 border-ink/30";
-  return (
-    <div aria-hidden className="hidden md:block">
-      <span className={`${base} left-0 top-0 border-l border-t`} />
-      <span className={`${base} right-0 top-0 border-r border-t`} />
-      <span className={`${base} bottom-0 left-0 border-b border-l`} />
-      <span className={`${base} bottom-0 right-0 border-b border-r`} />
-    </div>
-  );
-}
-
 function WallElevation() {
-  const reduce = useReducedMotion();
-  const draw = (delay: number) => ({
-    initial: reduce ? false : ({ pathLength: 0 } as const),
-    animate: { pathLength: 1 },
-    transition: { duration: 0.9, delay, ease: EASE },
-  });
-  const fade = (delay: number) => ({
-    initial: reduce ? false : ({ opacity: 0 } as const),
-    animate: { opacity: 1 },
-    transition: { duration: 0.7, delay },
-  });
+  const { draw, fade } = useDrawHelpers();
 
   return (
     <svg
@@ -221,87 +199,6 @@ function WallElevation() {
   );
 }
 
-/* CAD-style crosshair: hairlines + metric readout that trail the pointer
-   over the elevation drawing. Pointer-fine devices only. */
-function CadCursor({ zoneRef }: { zoneRef: React.RefObject<HTMLDivElement | null> }) {
-  const reduce = useReducedMotion();
-  const [fine, setFine] = useState(false);
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    setFine(window.matchMedia("(pointer: fine)").matches);
-  }, []);
-
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 400, damping: 35 });
-  const sy = useSpring(my, { stiffness: 400, damping: 35 });
-
-  /* pointer px → metres at the drawing's stated 12.70 m span */
-  const readout = useTransform([sx, sy], ([x, y]: number[]) => {
-    const r = zoneRef.current?.getBoundingClientRect();
-    if (!r || r.width === 0) return "";
-    const mPerPx = SPAN_M / r.width;
-    return `X ${(x * mPerPx).toFixed(2)} M — Y ${(y * mPerPx).toFixed(2)} M`;
-  });
-
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    mx.set(e.clientX - r.left);
-    my.set(e.clientY - r.top);
-  };
-
-  if (reduce || !fine) return null;
-
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 z-10 overflow-hidden"
-      onMouseMoveCapture={onMove}
-      onMouseEnter={() => setActive(true)}
-      onMouseLeave={() => setActive(false)}
-    >
-      <motion.div
-        className="absolute inset-y-0 w-px bg-ink/20"
-        style={{ x: sx, left: 0 }}
-        animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      />
-      <motion.div
-        className="absolute inset-x-0 h-px bg-ink/20"
-        style={{ y: sy, top: 0 }}
-        animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      />
-      <motion.div
-        className="absolute"
-        style={{ x: sx, y: sy }}
-        animate={{ opacity: active ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      >
-        <motion.span className="absolute left-3 top-3 whitespace-nowrap border border-ink/15 bg-paper/90 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-concrete backdrop-blur-sm">
-          {readout}
-        </motion.span>
-      </motion.div>
-    </div>
-  );
-}
-
-/* drafting-table ground: 32px minor / 160px major graph grid,
-   lit from upper-centre and faded toward the fold */
-const GRID_STYLE: CSSProperties = {
-  backgroundImage:
-    "linear-gradient(rgba(26,25,23,0.04) 1px, transparent 1px)," +
-    "linear-gradient(90deg, rgba(26,25,23,0.04) 1px, transparent 1px)," +
-    "linear-gradient(rgba(26,25,23,0.085) 1px, transparent 1px)," +
-    "linear-gradient(90deg, rgba(26,25,23,0.085) 1px, transparent 1px)",
-  backgroundSize: "32px 32px, 32px 32px, 160px 160px, 160px 160px",
-  maskImage:
-    "radial-gradient(120% 90% at 50% 0%, black 35%, transparent 100%)",
-  WebkitMaskImage:
-    "radial-gradient(120% 90% at 50% 0%, black 35%, transparent 100%)",
-};
-
 export default function Hero() {
   const reduce = useReducedMotion();
   const zoneRef = useRef<HTMLDivElement>(null);
@@ -423,7 +320,7 @@ export default function Hero() {
           >
             <motion.div style={reduce ? undefined : { y: drawY }}>
               <div ref={zoneRef} className="relative">
-                <CadCursor zoneRef={zoneRef} />
+                <CadCursor zoneRef={zoneRef} spanM={SPAN_M} />
                 <WallElevation />
               </div>
             </motion.div>

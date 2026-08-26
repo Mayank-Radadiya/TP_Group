@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import DimLine from "@/components/site/DimLine";
 import PanelImage from "@/components/site/PanelImage";
 import { Reveal, KineticHeadline } from "@/components/site/Reveal";
+import CompoundWallDrawing from "@/components/products/CompoundWallDrawing";
 import {
   WALL_COLUMN,
   WALL_PANEL,
@@ -15,55 +16,6 @@ export const metadata: Metadata = {
   description:
     "Flagship precast compound wall system — one-piece 75mm panels, TMT weld-mesh reinforcement, M30 concrete, tested before dispatch. 6–12 ft heights, five finish options.",
 };
-
-function WallDiagram() {
-  const s = "#1A1917";
-  return (
-    <svg viewBox="0 0 420 300" className="w-full" role="img" aria-label="Compound wall elevation drawing — columns at 3175mm centres, panel 1828mm high, 75mm thick">
-      {/* ground */}
-      <path d="M10 232 h400" stroke={s} strokeWidth="1.5" />
-      <path d="M20 232 l-8 8 M60 232 l-8 8 M100 232 l-8 8 M140 232 l-8 8 M180 232 l-8 8 M220 232 l-8 8 M260 232 l-8 8 M300 232 l-8 8 M340 232 l-8 8 M380 232 l-8 8" stroke={s} strokeWidth="0.75" opacity="0.4" />
-
-      {/* footings */}
-      <rect x="52" y="232" width="36" height="14" fill="none" stroke={s} strokeWidth="1" strokeDasharray="4 3" />
-      <rect x="292" y="232" width="36" height="14" fill="none" stroke={s} strokeWidth="1" strokeDasharray="4 3" />
-
-      {/* columns 200x200 */}
-      <rect x="60" y="52" width="20" height="180" fill="none" stroke={s} strokeWidth="2" />
-      <rect x="300" y="52" width="20" height="180" fill="none" stroke={s} strokeWidth="2" />
-
-      {/* panel 3048 x 1828 x 75 */}
-      <rect x="80" y="76" width="220" height="156" fill="none" stroke={s} strokeWidth="1.5" />
-      {/* weld mesh hint */}
-      <path d="M80 106 h220 M80 136 h220 M80 166 h220 M80 196 h220 M115 76 v156 M150 76 v156 M185 76 v156 M220 76 v156 M255 76 v156" stroke={s} strokeWidth="0.4" opacity="0.35" />
-
-      {/* dim A — column centres */}
-      <path d="M70 268 v8 M310 268 v8 M70 272 h240" stroke={s} strokeWidth="0.75" />
-      <path d="M70 268 l-3 6 M70 268 l3 6 M310 268 l-3 6 M310 268 l3 6" stroke={s} strokeWidth="0.75" />
-      <text x="190" y="290" textAnchor="middle" fontSize="11" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        A = 3175 mm
-      </text>
-
-      {/* dim panel height */}
-      <path d="M348 76 h8 M348 232 h8 M352 76 v156" stroke={s} strokeWidth="0.75" />
-      <path d="M348 76 l6 -3 M348 76 l6 3 M348 232 l6 -3 M348 232 l6 3" stroke={s} strokeWidth="0.75" />
-      <text x="366" y="158" fontSize="11" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1" transform="rotate(90 366 158)" textAnchor="middle">
-        1828 (6 ft)
-      </text>
-
-      {/* dim thickness */}
-      <path d="M80 60 h220 M80 56 v8 M300 56 v8" stroke={s} strokeWidth="0.75" />
-      <text x="190" y="48" textAnchor="middle" fontSize="11" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        L = 3048 mm · t = 75
-      </text>
-
-      {/* footing dim */}
-      <text x="70" y="262" fontSize="9" fill="#8B8680" fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        C = 450
-      </text>
-    </svg>
-  );
-}
 
 export default function CompoundWallPage() {
   return (
@@ -115,7 +67,7 @@ export default function CompoundWallPage() {
             <Reveal>
               <p className="label-mono mb-8">Elevation — standard 6 ft module</p>
               <div className="border border-ink/15 bg-paper-dim/50 p-6 md:p-10">
-                <WallDiagram />
+                <CompoundWallDrawing />
               </div>
               <div className="mt-6">
                 <DimLine label="Drawn to brand specification · not to scale" />

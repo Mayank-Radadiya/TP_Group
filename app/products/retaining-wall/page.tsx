@@ -2,61 +2,13 @@ import type { Metadata } from "next";
 import DimLine from "@/components/site/DimLine";
 import { Reveal, KineticHeadline } from "@/components/site/Reveal";
 import { RETAINING } from "@/lib/data";
+import RetainingWallDrawing from "@/components/products/RetainingWallDrawing";
 
 export const metadata: Metadata = {
   title: "Earth Retaining Wall",
   description:
     "L-shaped precast RCC retaining walls to Japanese Industrial Standards — self-compacting concrete, flange coupling, integral drainage, heights 1000–3000mm.",
 };
-
-function RetainingDiagram() {
-  const s = "#1A1917";
-  return (
-    <svg viewBox="0 0 420 300" className="w-full" role="img" aria-label="L-shaped retaining wall cross-section — stem height 1000 to 3000mm, base 850 to 2050mm, drain hole through stem">
-      {/* soil line behind */}
-      <path d="M20 60 h130" stroke={s} strokeWidth="1" strokeDasharray="5 4" opacity="0.6" />
-      <text x="24" y="50" fontSize="9" fill="#8B8680" fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        retained soil
-      </text>
-
-      {/* L unit: stem + base */}
-      <path d="M150 40 v170 h150" fill="none" stroke={s} strokeWidth="3" />
-      <path d="M176 40 v144 h124" fill="none" stroke={s} strokeWidth="1.5" />
-      {/* flange coupling */}
-      <path d="M150 96 h-10 v14 h10 M176 96 h10 v14 h-10" fill="none" stroke={s} strokeWidth="1" />
-      <text x="120" y="88" fontSize="9" fill="#8B8680" fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        flange coupling
-      </text>
-
-      {/* drain hole */}
-      <circle cx="163" cy="180" r="6" fill="none" stroke={s} strokeWidth="1.25" />
-      <path d="M163 186 v24" stroke={s} strokeWidth="0.75" strokeDasharray="3 3" />
-      <text x="185" y="184" fontSize="9" fill="#8B8680" fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        Ø 70/75 drain · filter
-      </text>
-
-      {/* H dim */}
-      <path d="M120 40 h-16 M120 210 h-16 M112 40 v170" stroke={s} strokeWidth="0.75" />
-      <path d="M112 40 l6 -3 M112 40 l6 3 M112 210 l6 -3 M112 210 l6 3" stroke={s} strokeWidth="0.75" />
-      <text x="104" y="128" fontSize="11" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1" transform="rotate(-90 104 128)" textAnchor="middle">
-        H 1000 – 3000
-      </text>
-
-      {/* B dim */}
-      <path d="M150 240 h150 M150 236 v8 M300 236 v8" stroke={s} strokeWidth="0.75" />
-      <path d="M150 236 l-3 6 M150 236 l3 6 M300 236 l-3 6 M300 236 l3 6" stroke={s} strokeWidth="0.75" />
-      <text x="225" y="262" textAnchor="middle" fontSize="11" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        B 850 – 2050 · unit L = 2000
-      </text>
-
-      {/* foundation build-up */}
-      <path d="M60 282 h320" stroke={s} strokeWidth="1.5" />
-      <text x="210" y="296" textAnchor="middle" fontSize="9" fill="#8B8680" fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        bedding mortar → foundation concrete → crushed stone
-      </text>
-    </svg>
-  );
-}
 
 export default function RetainingWallPage() {
   return (
@@ -96,7 +48,7 @@ export default function RetainingWallPage() {
             <Reveal>
               <p className="label-mono mb-8">Cross-section — L unit</p>
               <div className="border border-ink/15 bg-paper-dim/50 p-6 md:p-10">
-                <RetainingDiagram />
+                <RetainingWallDrawing />
               </div>
               <div className="mt-6">
                 <DimLine label="Drawn to brand specification · not to scale" />

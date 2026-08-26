@@ -2,54 +2,13 @@ import type { Metadata } from "next";
 import DimLine from "@/components/site/DimLine";
 import { Reveal, KineticHeadline } from "@/components/site/Reveal";
 import { DRAIN_T6, DRAIN_T25 } from "@/lib/data";
+import UDrainDrawing from "@/components/products/UDrainDrawing";
 
 export const metadata: Metadata = {
   title: "Precast 'U' Shape Drain — T-6 & T-25",
   description:
     "Precast U-drain systems: T-6 light duty (1.5–5T axle) and T-25 heavy duty (5–10T axle), 2000mm units from 300×300 to 900×900mm with matching lids.",
 };
-
-function DrainDiagram() {
-  const s = "#1A1917";
-  return (
-    <svg viewBox="0 0 420 300" className="w-full" role="img" aria-label="U-drain cross-section — internal width 300 to 900mm, walls 65 to 150mm, lid on top">
-      {/* lid */}
-      <rect x="120" y="70" width="180" height="26" fill="none" stroke={s} strokeWidth="2" />
-      <path d="M130 83 h160" stroke={s} strokeWidth="0.4" opacity="0.35" />
-      {/* u section outer */}
-      <path d="M110 96 v96 a26 26 0 0 0 26 26 h148 a26 26 0 0 0 26 -26 v-96" fill="none" stroke={s} strokeWidth="2.5" />
-      {/* u section inner */}
-      <path d="M136 96 v90 a14 14 0 0 0 14 14 h120 a14 14 0 0 0 14 -14 v-90" fill="none" stroke={s} strokeWidth="1.5" />
-      {/* haunch lines */}
-      <path d="M136 150 l-14 14 M284 150 l14 14" stroke={s} strokeWidth="0.75" opacity="0.5" />
-
-      {/* internal width dim */}
-      <path d="M136 60 h148 M136 56 v8 M284 56 v8" stroke={s} strokeWidth="0.75" />
-      <text x="210" y="48" textAnchor="middle" fontSize="11" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        300 – 900 mm
-      </text>
-
-      {/* wall thickness dim */}
-      <path d="M110 120 h-16 M94 96 v48" stroke={s} strokeWidth="0.75" />
-      <text x="86" y="148" fontSize="10" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1" textAnchor="end">
-        c 65–85
-      </text>
-
-      {/* depth dim */}
-      <path d="M322 96 h16 M330 96 v110" stroke={s} strokeWidth="0.75" />
-      <text x="336" y="155" fontSize="10" fill={s} fontFamily="var(--font-plex-mono), monospace" letterSpacing="1" transform="rotate(90 336 155)" textAnchor="middle">
-        H 375 – 1170
-      </text>
-
-      {/* bedding */}
-      <path d="M60 240 h300" stroke={s} strokeWidth="1.5" />
-      <path d="M70 240 l-8 8 M130 240 l-8 8 M190 240 l-8 8 M250 240 l-8 8 M310 240 l-8 8" stroke={s} strokeWidth="0.75" opacity="0.4" />
-      <text x="210" y="264" textAnchor="middle" fontSize="9" fill="#8B8680" fontFamily="var(--font-plex-mono), monospace" letterSpacing="1">
-        100 mm PCC + 20 mm dry mortar · groove joints · lifting inserts
-      </text>
-    </svg>
-  );
-}
 
 function SpecTable({ rows }: { rows: readonly (readonly [string, string])[] | readonly string[][] }) {
   return (
@@ -102,7 +61,7 @@ export default function UDrainPage() {
             <Reveal>
               <p className="label-mono mb-8">Cross-section — typical unit</p>
               <div className="border border-ink/15 bg-paper-dim/50 p-6 md:p-10">
-                <DrainDiagram />
+                <UDrainDrawing />
               </div>
               <div className="mt-6">
                 <DimLine label="Drawn to brand specification · not to scale" />
