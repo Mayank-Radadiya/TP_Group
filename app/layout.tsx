@@ -46,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${archivo.variable} ${inter.variable} ${plexMono.variable} bg-paper text-ink font-sans antialiased selection:bg-red selection:text-paper`}
       >

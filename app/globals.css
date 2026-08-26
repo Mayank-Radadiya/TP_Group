@@ -73,6 +73,23 @@
     @apply font-mono text-[11px] uppercase tracking-[0.22em] text-concrete;
   }
 
+  /* hollow display type — stroke scales with font size */
+  .type-outline {
+    color: transparent;
+    -webkit-text-stroke: 0.016em var(--ink);
+  }
+  @supports not (-webkit-text-stroke: 1px black) {
+    .type-outline {
+      color: var(--concrete);
+    }
+  }
+  /* outline thins out legibility on small screens — fatten stroke below tablet */
+  @media (max-width: 767px) {
+    .type-outline {
+      -webkit-text-stroke-width: 0.035em;
+    }
+  }
+
   /* ---- drawing sheet chrome ---- */
   .sheet {
     @apply relative mx-auto w-full max-w-[1440px] px-5 md:px-10 lg:px-16;
